@@ -29,6 +29,30 @@ def getPluralOutcome(pref_matrix):
     outcome_list = np.array(outcome_list)[:,0]
     return outcome_list
 
+# Voting for 2 Scheme
+def getVotingForTwoOutcome(pref_matrix, bullet_tactic=False, bullet_voter=None):
+    candidate_dict = {}
+    for c in range(n_candidates):
+        candidate_dict[chr(65+c)] = 0
+    #Calculate outcome
+    if not bullet_tactic:
+        for v in range(n_voters):
+            candidate_dict[pref_matrix.T[v,0]] += 1
+            candidate_dict[pref_matrix.T[v,1]] += 1
+    else:
+        for v in range(n_voters):
+            if v == bullet_voter:
+                candidate_dict[pref_matrix.T[v,0]] += 1
+            else:
+                candidate_dict[pref_matrix.T[v,0]] += 1
+                candidate_dict[pref_matrix.T[v,1]] += 1
+    
+    candidate_dict.pop('nil', None)
+    outcome_list = sorted(candidate_dict.items(), key = lambda kv:(kv[1], kv[0]))
+    outcome_list.sort(key=lambda val:val[1], reverse=True)
+    outcome_list = np.array(outcome_list)[:,0]
+    return outcome_list 
+
 # Anti-plurality Scheme
 def getAntiPluralOutcome(pref_matrix, bullet_tactic=False, bullet_voter=None):
     candidate_dict = {}
@@ -86,8 +110,9 @@ def getOutcome(pref_matrix, bullet_tactic=False, bullet_voter=None):
     if scheme == '1':
       return getPluralOutcome(pref_matrix)
     elif scheme == '2':
+        return getVotingForTwoOutcome(pref_matrix, bullet_tactic, bullet_voter)
+    elif scheme == '3':
       return getAntiPluralOutcome(pref_matrix, bullet_tactic, bullet_voter)
-
     elif scheme == '4':
       return getBordaOutcome(pref_matrix, bullet_tactic, bullet_voter)
 
@@ -241,7 +266,7 @@ def TVA(true_pref_matrix):
     # S -- STrategic voting options (dict)
     # R -- Risk (scalar)
     global scheme
-    scheme = input("Choose the voting scheme (1,2,3 or 4): \n1. Plurality \n2. Anti-plurality \n3. Vote for two, \n4. Borda \n\n>> ")
+    scheme = input("Choose the voting scheme (1,2,3 or 4): \n1. Plurality \n2. Vote for two \n3. Anti-plurality, \n4. Borda \n\n>> ")
 
     true_pref_matrix = true_pref_matrix.values
 
