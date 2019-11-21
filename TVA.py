@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-excel_file = "Tactical-Voting-Analyst/data.xlsx"
+#excel_file = "data.xlsx"
 excel_file = "toy_data.xlsx"
 
 preference_matrix = pd.read_excel(excel_file)
@@ -241,7 +241,7 @@ def TVA(true_pref_matrix):
     # S -- STrategic voting options (dict)
     # R -- Risk (scalar)
     global scheme
-    scheme = input("Choose the voting scheme (1,2,3 or 4): \n1. Plurality \n2. Anti-plurality \n3. Vote for two, \n4. Borda \n\n>>")
+    scheme = input("Choose the voting scheme (1,2,3 or 4): \n1. Plurality \n2. Anti-plurality \n3. Vote for two, \n4. Borda \n\n>> ")
 
     true_pref_matrix = true_pref_matrix.values
 
