@@ -46,12 +46,12 @@ def getVotingForTwoOutcome(pref_matrix, bullet_tactic=False, bullet_voter=None):
             else:
                 candidate_dict[pref_matrix.T[v,0]] += 1
                 candidate_dict[pref_matrix.T[v,1]] += 1
-    
+
     candidate_dict.pop('nil', None)
     outcome_list = sorted(candidate_dict.items(), key = lambda kv:(kv[1], kv[0]))
     outcome_list.sort(key=lambda val:val[1], reverse=True)
     outcome_list = np.array(outcome_list)[:,0]
-    return outcome_list 
+    return outcome_list
 
 # Anti-plurality Scheme
 def getAntiPluralOutcome(pref_matrix, bullet_tactic=False, bullet_voter=None):
@@ -181,7 +181,7 @@ def _comproTactic(v, voter_true_pref, true_pref_matrix): # Given the voter 'v' b
     modified_pref_matrix = true_pref_matrix.copy()
     modified_pref_matrix[:,v] = voter_pref_best.copy()
     O_compro = getOutcome(modified_pref_matrix)
-    return voter_pref_best, O_compro, v_h_compro
+    return voter_pref_best, O_compro, v_h_compro_max
 
 def _buryTactic(v, voter_true_pref, true_pref_matrix):
     global scheme
@@ -212,7 +212,7 @@ def _buryTactic(v, voter_true_pref, true_pref_matrix):
     modified_pref_matrix = true_pref_matrix.copy()
     modified_pref_matrix[:,v] = voter_pref_best.copy()
     O_bury = getOutcome(modified_pref_matrix)
-    return voter_pref_best, O_bury, v_h_bury
+    return voter_pref_best, O_bury, v_h_bury_max
 
 def _bulletTactic(v, voter_true_pref, true_pref_matrix):
     global scheme
